@@ -12,3 +12,10 @@ GET {{Host}}/tasks/{{Guid}}
 Accept:application/json
 
 ###
+
+@Status=completed
+
+GET {{Host}}/tasks?status={{Status}}
+Accept:application/json
+
+###

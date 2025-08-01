@@ -26,7 +26,7 @@ public class GetById(ITaskItemsService service) : Endpoint<GetTaskItemByIdReques
     public override async Task HandleAsync(GetTaskItemByIdRequest req,
         CancellationToken ct)
     {
-        var task = await _service.GetTaskItemById(req.Id);
+        var task = await _service.GetTaskItemByIdAsync(req.Id);
         if (task == null)
         {
             await Send.NotFoundAsync();

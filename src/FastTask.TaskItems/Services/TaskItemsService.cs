@@ -27,15 +27,16 @@ public class TaskItemsService : ITaskItemsService
         return taskList;
     }
 
-    public async Task<TaskItemDto?> GetTaskItemById(Guid id)
+    public async Task<TaskItemDto?> GetTaskItemByIdAsync(Guid id)
     {
-        var task = await _taskRepository.GetTaskItemById(id);
+        var task = await _taskRepository.GetTaskItemByIdAsync(id);
         return new TaskItemDto(task.ItemId, task.Title, task.Description, task.Status, task.CreatedDate, task.UpdatedDate);
     }
 
-    public Task<IReadOnlyList<TaskItemDto>> ListTaskItemsByStatus(ItemStatus status)
+    public async Task<IReadOnlyList<TaskItemDto>> ListTaskItemsByStatusAsync(ItemStatus status)
     {
-        throw new NotImplementedException();
+        var taskList = await _taskRepository.ListTaskItemsByStatusAsync(status);
+        return [.. taskList.Select(item => new TaskItemDto(item.ItemId, item.Title, item.Description, item.Status, item.CreatedDate, item.UpdatedDate))];
     }
 
     public Task UpdateTaskItemStatus(Guid id, ItemStatus status)

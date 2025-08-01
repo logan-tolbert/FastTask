@@ -1,13 +1,18 @@
 ﻿using FastEndpoints;
 using FastTask.TaskItems.Abstractions;
 using FastTask.TaskItems.DTOs;
+using FastTask.TaskItems.Enums;
 
 namespace FastTask.TaskItems.TaskItemsEndpoints;
-
-public record ListTaskItemsResponse(IReadOnlyList<TaskItemDto> TaskList);
-public class List(ITaskItemsService taskService) : EndpointWithoutRequest<ListTaskItemsResponse>
+public class ListTaskItemsByStatusRequest
 {
-    private readonly ITaskItemsService _taskService = taskService;
+    [QueryParam]
+    public string? Status { get; init; }
+}
+public record ListTaskItemsResponse(IReadOnlyList<TaskItemDto> TaskList);
+public class List(ITaskItemsService service) : Endpoint<ListTaskItemsByStatusRequest,ListTaskItemsResponse>
+{
+    private readonly ITaskItemsService _service = service;
 
     public override void Configure()
     {
@@ -19,11 +24,26 @@ public class List(ITaskItemsService taskService) : EndpointWithoutRequest<ListTa
         AllowAnonymous();
     }
 
-    public override async Task HandleAsync(
+    public override async Task HandleAsync(ListTaskItemsByStatusRequest req,
        CancellationToken cancellationToken = default)
     {
-        var taskList = await _taskService.ListTaskItemsAsync();
+        if (!string.IsNullOrEmpty(req.Status))
+        {
+            if (!Enum.TryParse<ItemStatus>(req.Status, true, out var status))
+            {
+                // TODO: Log the error
+                // TODO: Return a proper error response.
+                return;
+            }
+            var taskList = await _service.ListTaskItemsByStatusAsync(status);
+            await Send.OkAsync(new ListTaskItemsResponse(taskList), cancellationToken);
+        }
+        else
+        {
+            var taskList = await _service.ListTaskItemsAsync();
 
-        await Send.OkAsync(new ListTaskItemsResponse(taskList));
+            await Send.OkAsync(new ListTaskItemsResponse(taskList), cancellationToken);
+        }
+         
     }
 }
