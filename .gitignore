@@ -3,6 +3,9 @@
 ##
 ## Get latest from `dotnet new gitignore`
 
+appsettings.Development.json
+appsettings.Testing.json
+
 # dotenv files
 .env
 
@@ -482,3 +485,4 @@ $RECYCLE.BIN/
 
 # Vim temporary swap files
 *.swp
+/src/FastTask/appsettings.Development.json

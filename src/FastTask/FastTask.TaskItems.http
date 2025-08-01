@@ -1,1 +1,14 @@
 # For more info on HTTP files go to https://aka.ms/vs/httpfile
+@Host=https://localhost:7185
+
+GET {{Host}}/tasks
+Accept:application/json
+
+###
+
+@Guid=f7cb95b9-b1ed-48b8-82c2-bd2495e97d8e
+
+GET {{Host}}/tasks/{{Guid}}
+Accept:application/json
+
+###

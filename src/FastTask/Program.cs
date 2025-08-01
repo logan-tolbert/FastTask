@@ -1,4 +1,5 @@
 using FastEndpoints;
+using FastEndpoints.Swagger;
 using FastTask.TaskItems.Extensions;
 using Microsoft.OpenApi.Models;
 using Serilog;
@@ -23,40 +24,16 @@ try
     .WriteTo.Console());
 
     builder.Services.AddEndpointsApiExplorer();
-    builder.Services.AddSwaggerGen(options =>
-    {
-        options.SwaggerDoc("v1", new OpenApiInfo
-        {
-            Version = "v1",
-            Title = "FastTask API",
-            Description = "An ASP.NET Core Web API for managing personal tasks",
-            TermsOfService = new Uri("https://example.com/terms"),
-            Contact = new OpenApiContact
-            {
-                Name = "Logan Tolbert",
-                Url = new Uri("https://logan-tolbert.com")
-            },
-            License = new OpenApiLicense
-            {
-                Name = "Example License",
-                Url = new Uri("https://example.com/license")
-            }
-        });
-    });
+    builder.Services.AddFastEndpoints()
+        .SwaggerDocument();
+   
 
-    builder.Services.AddTaskItemService(builder.Configuration, logger);
+    builder.Services.AddTaskItemsService(builder.Configuration, logger);
 
     var app = builder.Build();
 
-    if (app.Environment.IsDevelopment())
-    {
-        app.UseSwagger();
-        app.UseSwaggerUI(options =>
-        {
-            options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
-            options.RoutePrefix = string.Empty;
-        });
-    }
+    app.UseFastEndpoints()
+        .UseSwaggerGen();
 
     app.Run();
 }
@@ -68,3 +45,5 @@ finally
 {
     Log.CloseAndFlush();
 }
+
+public partial class Program { }
