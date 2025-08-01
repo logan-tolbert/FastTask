@@ -26,15 +26,17 @@ public class TaskItemsRepository : ITaskItemsRepository
 
     }
 
-    public async Task<TaskItem?> GetTaskItemById(Guid id)
+    public async Task<TaskItem?> GetTaskItemByIdAsync(Guid id)
     {
         var task = await _dbContext.TaskItems.FirstOrDefaultAsync(t => t.ItemId == id);
         return task;
     }
 
-    public Task<IReadOnlyList<TaskItem>> ListTaskItemsByStatus(ItemStatus status)
+    public async Task<IReadOnlyList<TaskItem>> ListTaskItemsByStatusAsync(ItemStatus status)
     {
-        throw new NotImplementedException();
+        var taskList = await _dbContext.TaskItems.Where(t => t.Status == status)
+            .ToListAsync();
+        return taskList;
     }
 
     public Task UpdateTaskItemStatus(Guid id, ItemStatus status)

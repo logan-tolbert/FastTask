@@ -7,8 +7,8 @@ public interface ITaskItemsService
 {
     Task CreateTaskItem(TaskItemDto newItem);
     Task<IReadOnlyList<TaskItemDto>> ListTaskItemsAsync();
-    Task<TaskItemDto?> GetTaskItemById(Guid id);
-    Task<IReadOnlyList<TaskItemDto>> ListTaskItemsByStatus(ItemStatus status);
+    Task<TaskItemDto?> GetTaskItemByIdAsync(Guid id);
+    Task<IReadOnlyList<TaskItemDto>> ListTaskItemsByStatusAsync(ItemStatus status);
     Task UpdateTaskItemStatus(Guid id, ItemStatus status);
     Task DeleteTaskItem(Guid id);
 }
