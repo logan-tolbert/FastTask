@@ -3,12 +3,12 @@ using FastTask.TaskItems.Enums;
 
 namespace FastTask.TaskItems.Abstractions;
 
-internal interface ITaskItemService
+public interface ITaskItemsService
 {
     Task CreateTaskItem(TaskItemDto newItem);
-    Task<List<TaskItemDto>> ListTaskItems();
+    Task<IReadOnlyList<TaskItemDto>> ListTaskItemsAsync();
     Task<TaskItemDto?> GetTaskItemById(Guid id);
-    Task<List<TaskItemDto>> ListTaskItemsByStatus(ItemStatus status);
+    Task<IReadOnlyList<TaskItemDto>> ListTaskItemsByStatus(ItemStatus status);
     Task UpdateTaskItemStatus(Guid id, ItemStatus status);
     Task DeleteTaskItem(Guid id);
 }

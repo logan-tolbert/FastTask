@@ -3,7 +3,7 @@ using FastTask.TaskItems.Enums;
 
 namespace FastTask.TaskItems.Abstractions;
 
-internal interface ITaskItemRepository : IReadOnlyTaskItemRepository
+public interface ITaskItemsRepository : IReadOnlyTaskItemsRepository
 {
     Task CreateTaskItem(TaskItem newItem);
     Task UpdateTaskItemStatus(Guid id, ItemStatus status);
