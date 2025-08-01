@@ -1,23 +1,26 @@
 ﻿using FastTask.TaskItems.Enums;
 using Ardalis.GuardClauses;
+using NJsonSchema.Annotations;
 namespace FastTask.TaskItems.Entities;
 
-internal class TaskItem
+public class TaskItem
 {
-    public Guid ItemId { get; set;}
+    public int Id { get; set; } // Internal PK
+    public Guid ItemId { get; set;} // External Identifier
     public string Title { get; set;} = string.Empty;
     public string Description { get; set; } = string.Empty;
     public ItemStatus Status { get; set; } = ItemStatus.Pending;
-    public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
-    public DateTime? UpdatedDate { get; set;}
+    public DateTime CreatedDate { get; set; }
+    public DateTime? UpdatedDate { get; set; } = null;
     
-    internal TaskItem(Guid itemId, string title, string description, ItemStatus status,  DateTime createdDate, DateTime updatedDate)
+    public TaskItem() { }
+    public TaskItem(string title, string description, ItemStatus status)
     {
-        ItemId = Guard.Against.Default(itemId);
+        ItemId = Guid.NewGuid();
         Title = Guard.Against.NullOrWhiteSpace(title);
         Description = Guard.Against.NullOrWhiteSpace(description);
-        Status = status;
-        CreatedDate = createdDate;
+        Status = Guard.Against.EnumOutOfRange(status);
+        CreatedDate = DateTime.UtcNow;
     }
 }
 

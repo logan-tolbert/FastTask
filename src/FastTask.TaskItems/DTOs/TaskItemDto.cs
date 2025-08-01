@@ -2,11 +2,11 @@
 namespace FastTask.TaskItems.DTOs;
 
 public record TaskItemDto(
-    Guid Id,
+    Guid ItemId,
     string Title,
     string Description,
     ItemStatus Status,
-    DateTime CreatedAt,
-    DateTime UpdatedAt
+    DateTime CreatedDate,
+    DateTime? UpdatedDate
 );
 
