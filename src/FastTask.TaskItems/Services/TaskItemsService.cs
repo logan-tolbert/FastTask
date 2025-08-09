@@ -50,9 +50,14 @@ public class TaskItemsService : ITaskItemsService
         return new TaskItemDto(updatedTask.ItemId, updatedTask.Title, updatedTask.Description, updatedTask.Status, updatedTask.CreatedDate, updatedTask.UpdatedDate);
     }
 
-    public Task DeleteTaskItem(Guid id)
+    public async Task<IAsyncResult?> DeleteTaskItemAsync(Guid itemId)
     {
-        throw new NotImplementedException();
+        var result = await _taskRepository.DeleteTaskItemAsync(itemId);
+        if (result is null)
+        {
+            return null;
+        }
+        return result;
     }
 }
 

@@ -7,5 +7,5 @@ public interface ITaskItemsRepository : IReadOnlyTaskItemsRepository
 {
     Task CreateTaskItem(TaskItem newItem);
     Task<TaskItem?> UpdateTaskItemStatusAsync(Guid itemId, ItemStatus status);
-    Task DeleteTaskItem(Guid id);
+    Task<IAsyncResult?> DeleteTaskItemAsync(Guid itemId);
 }

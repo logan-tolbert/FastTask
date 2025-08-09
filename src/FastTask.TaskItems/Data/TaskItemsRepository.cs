@@ -56,9 +56,17 @@ public class TaskItemsRepository : ITaskItemsRepository
 
     }
 
-    public Task DeleteTaskItem(Guid id)
+    public async Task<IAsyncResult?> DeleteTaskItemAsync(Guid itemId)
     {
-        throw new NotImplementedException();
+        var taskItem = await _dbContext.TaskItems.FirstOrDefaultAsync(t => t.ItemId == itemId);
+        if (taskItem is null)
+        {
+            return null;
+        }
+        _dbContext.Remove(taskItem);
+        await _dbContext.SaveChangesAsync();
+        return Task.CompletedTask;
+        
     }
 }
 

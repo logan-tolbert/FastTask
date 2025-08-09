@@ -2,21 +2,18 @@
 @Host=https://localhost:7185
 GET {{Host}}/tasks
 Accept:application/json
-
 ###
 
 @Guid=f7cb95b9-b1ed-48b8-82c2-bd2495e97d8e
 
 GET {{Host}}/tasks/{{Guid}}
 Accept:application/json
-
 ###
 
 @Status="completed"
 
 GET {{Host}}/tasks?status={{Status}}
 Accept:application/json
-
 ###
 
 PUT {{Host}}/tasks/{{Guid}}
@@ -25,4 +22,10 @@ Content-Type: application/json
 {
   "status": {{Status}}
 }
+###
+
+@GuidToDelete=00000000-0000-0000-0000-000000000000
+
+DELETE {{Host}}/tasks/{{GuidToDelete}}
+Accept: application/json
 ###
