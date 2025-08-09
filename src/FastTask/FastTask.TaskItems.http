@@ -12,7 +12,7 @@ Accept:application/json
 
 ###
 
-@Status=completed
+@Status="completed"
 
 GET {{Host}}/tasks?status={{Status}}
 Accept:application/json
@@ -23,6 +23,6 @@ PUT {{Host}}/tasks/{{Guid}}
 Accept: application/json
 Content-Type: application/json
 {
-  "status": "Completed"
+  "status": {{Status}}
 }
 ###

@@ -33,8 +33,7 @@ public class UpdateTaskItemStatus(ITaskItemsService service) : Endpoint<UpdateTa
     public override async Task HandleAsync(UpdateTaskItemStatusRequest req,
        CancellationToken ct = default)
     {
-        if (!string.IsNullOrEmpty(req.Status))
-        {
+        
             if (!Enum.TryParse<ItemStatus>(req.Status, true, out var status))
             {
                 // TODO: Log the error
@@ -48,9 +47,6 @@ public class UpdateTaskItemStatus(ITaskItemsService service) : Endpoint<UpdateTa
                 return;
             }
             await Send.OkAsync(updatedTaskItem, ct);
-        }
-
-
 
     }
 }
