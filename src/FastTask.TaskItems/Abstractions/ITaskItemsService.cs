@@ -9,6 +9,6 @@ public interface ITaskItemsService
     Task<IReadOnlyList<TaskItemDto>> ListTaskItemsAsync();
     Task<TaskItemDto?> GetTaskItemByIdAsync(Guid id);
     Task<IReadOnlyList<TaskItemDto>> ListTaskItemsByStatusAsync(ItemStatus status);
-    Task UpdateTaskItemStatus(Guid id, ItemStatus status);
+    Task<TaskItemDto?> UpdateTaskItemStatusAsync(Guid itemId, ItemStatus status);
     Task DeleteTaskItem(Guid id);
 }

@@ -1,6 +1,7 @@
 ﻿using FastTask.TaskItems.Abstractions;
 using FastTask.TaskItems.Entities;
 using FastTask.TaskItems.Enums;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -39,9 +40,20 @@ public class TaskItemsRepository : ITaskItemsRepository
         return taskList;
     }
 
-    public Task UpdateTaskItemStatus(Guid id, ItemStatus status)
+    public async Task<TaskItem?> UpdateTaskItemStatusAsync(Guid itemId, ItemStatus status)
     {
-        throw new NotImplementedException();
+        var taskItem = await _dbContext.TaskItems.FirstOrDefaultAsync(t => t.ItemId == itemId);
+        if (taskItem is null)
+        {
+            return null;
+        }
+        taskItem.Status = status;
+        taskItem.UpdatedDate = DateTime.UtcNow;
+        _dbContext.TaskItems.Update(taskItem);
+        await _dbContext.SaveChangesAsync();
+        
+        return taskItem;
+
     }
 
     public Task DeleteTaskItem(Guid id)

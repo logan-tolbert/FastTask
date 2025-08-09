@@ -6,6 +6,6 @@ namespace FastTask.TaskItems.Abstractions;
 public interface ITaskItemsRepository : IReadOnlyTaskItemsRepository
 {
     Task CreateTaskItem(TaskItem newItem);
-    Task UpdateTaskItemStatus(Guid id, ItemStatus status);
+    Task<TaskItem?> UpdateTaskItemStatusAsync(Guid itemId, ItemStatus status);
     Task DeleteTaskItem(Guid id);
 }

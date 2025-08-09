@@ -1,4 +1,5 @@
-﻿using FastTask.TaskItems.Abstractions;
+﻿using Ardalis.GuardClauses;
+using FastTask.TaskItems.Abstractions;
 using FastTask.TaskItems.Data;
 using FastTask.TaskItems.DTOs;
 using FastTask.TaskItems.Entities;
@@ -39,9 +40,14 @@ public class TaskItemsService : ITaskItemsService
         return [.. taskList.Select(item => new TaskItemDto(item.ItemId, item.Title, item.Description, item.Status, item.CreatedDate, item.UpdatedDate))];
     }
 
-    public Task UpdateTaskItemStatus(Guid id, ItemStatus status)
+    public async Task<TaskItemDto?> UpdateTaskItemStatusAsync(Guid itemId, ItemStatus status)
     {
-        throw new NotImplementedException();
+        var updatedTask = await _taskRepository.UpdateTaskItemStatusAsync(itemId, status);
+        if (updatedTask is null)
+        {
+            return null;
+        }
+        return new TaskItemDto(updatedTask.ItemId, updatedTask.Title, updatedTask.Description, updatedTask.Status, updatedTask.CreatedDate, updatedTask.UpdatedDate);
     }
 
     public Task DeleteTaskItem(Guid id)
