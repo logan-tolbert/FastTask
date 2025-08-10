@@ -1,7 +1,6 @@
 using FastEndpoints;
 using FastEndpoints.Swagger;
 using FastTask.TaskItems.Extensions;
-using Microsoft.OpenApi.Models;
 using Serilog;
 using Serilog.Events;
 
@@ -26,11 +25,21 @@ try
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddFastEndpoints()
         .SwaggerDocument();
-   
+    builder.Services.AddCors(opts =>
+    {
+        opts.AddPolicy("AllowAngularClient", policy =>
+        {
+            policy.WithOrigins("http://localhost:4200")
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+        });
+    });
 
     builder.Services.AddTaskItemsService(builder.Configuration, logger);
 
     var app = builder.Build();
+
+    app.UseCors("AllowAngularClient");
 
     app.UseFastEndpoints()
         .UseSwaggerGen();

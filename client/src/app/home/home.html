@@ -1,0 +1,18 @@
+<div class="container">
+  <h1>Welcome to FastTask!</h1>
+  <p>Your task management solution.</p>
+  <div class="task-list">
+    <h2>Tasks</h2>
+    <ul>
+      @for(task of tasks; track task.itemId) {
+      <li class="task-item" data-id={{task.itemId}}>
+        <h3>{{ task.title }}</h3>
+        <p>{{ task.description }}</p>
+        <span>Status: {{ task.status }}</span><br />
+        <span>Created at: {{ task.createdDate }}</span><br />
+        <span>Updated at: {{ task.updatedDate }}</span><br />
+      </li>
+      }
+    </ul>
+  </div>
+</div>
