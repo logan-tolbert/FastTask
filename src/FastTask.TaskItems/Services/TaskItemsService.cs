@@ -1,9 +1,9 @@
 ﻿using Ardalis.GuardClauses;
 using FastTask.TaskItems.Abstractions;
-using FastTask.TaskItems.Data;
 using FastTask.TaskItems.DTOs;
 using FastTask.TaskItems.Entities;
 using FastTask.TaskItems.Enums;
+using FastTask.TaskItems.TaskItemsEndpoints;
 
 namespace FastTask.TaskItems.Services;
 
@@ -15,9 +15,12 @@ public class TaskItemsService : ITaskItemsService
         _taskRepository = taskRepository;
     }
 
-    public Task CreateTaskItem(TaskItemDto newItem)
+    public async Task<TaskItemDto> CreateTaskItemAsync(CreateTaskItemDto newItem)
     {
-        throw new NotImplementedException();
+        var taskItem = new TaskItem(newItem.Title, newItem.Description, newItem.Status);
+        var createdItem = await _taskRepository.CreateTaskItemAsync(taskItem);
+
+        return new TaskItemDto(createdItem.ItemId, createdItem.Title, createdItem.Description, createdItem.Status, createdItem.CreatedDate, createdItem.UpdatedDate);
     }
 
     public async Task<IReadOnlyList<TaskItemDto>> ListTaskItemsAsync()

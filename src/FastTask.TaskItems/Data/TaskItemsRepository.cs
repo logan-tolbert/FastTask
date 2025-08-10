@@ -15,10 +15,13 @@ public class TaskItemsRepository : ITaskItemsRepository
     {
         _dbContext = dbContext;
     }
-    public Task CreateTaskItem(TaskItem newItem)
+    public async Task<TaskItem> CreateTaskItemAsync(TaskItem newItem)
     {
-        throw new NotImplementedException();
+        _dbContext.TaskItems.Add(newItem);
+        await _dbContext.SaveChangesAsync();
+        return newItem;
     }
+
 
     public async Task<IReadOnlyList<TaskItem>> ListTaskItemsAsync()
     {

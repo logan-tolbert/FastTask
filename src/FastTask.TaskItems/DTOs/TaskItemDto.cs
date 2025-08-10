@@ -6,7 +6,7 @@ public record TaskItemDto(
     string Title,
     string Description,
     ItemStatus Status,
-    DateTime CreatedDate,
+    DateTime? CreatedDate,
     DateTime? UpdatedDate
 );
 
